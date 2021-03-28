@@ -67,10 +67,13 @@ public class FileHttpResponse extends HttpResponse {
             if (inputFile != null) {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile)));
-                char[] buffer = new char[1024];
+                char[] buffer = new char[2048];
                 int read;
-                while ((read = reader.read(buffer)) != -1) {
+                int count=0;
+                while ( (read = reader.read(buffer)) != -1 ) {
                     writer.write(buffer, 0, read);
+                    count=count+read;
+
                 }
 
                 reader.close();

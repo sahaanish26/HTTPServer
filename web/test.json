@@ -50,12 +50,31 @@
     {
       "event": "closetag",
       "data": [
+        "script",
+        "script",
+        "script",
+        "script",
+        "script",
+        "script",
         "script"
       ]
     },
     {
       "event": "closetag",
       "data": [
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
         "p"
       ]
     }
