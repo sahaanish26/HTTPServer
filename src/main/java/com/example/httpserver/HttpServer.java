@@ -9,11 +9,13 @@ import java.util.logging.Logger;
 
 public class HttpServer {
 
- private static final int port = 8000;
+    private static final int port = 8000;
     private final static Logger logger = Logger.getLogger(HttpServer.class.getName());
 
     protected static ExecutorService threadPoolOne =
             Executors.newSingleThreadExecutor();
+
+    private static  boolean running = true;
 
     public static void main(String[] args){
         logger.info("server starting");
@@ -26,6 +28,14 @@ public class HttpServer {
         }
        // new Thread(delegate).start();
         threadPoolOne.execute(delegate);
-
+        while(running) {
+            Console console = System.console();
+            String command = console.readLine("server: ");
+            System.out.println("command" + command);
+            if(command.equalsIgnoreCase("stop")){
+                running=false;
+               // delegate.stop();
+            }
+        }
     }
 }
