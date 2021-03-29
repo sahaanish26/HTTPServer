@@ -123,7 +123,7 @@ public class FileHttpResponse extends HttpResponse {
     }
 
     private void setContentLength() throws IOException {
-        System.out.println("insode setContentLength");
+
         this.getHeaders().put("Content-Length", String.valueOf(this.inputFile.length()));
     }
 
