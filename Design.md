@@ -21,4 +21,6 @@
 
 ![Screenshot](Design/delegate.png)
 
+See the [Flow](Design/flow.png).
+
 ![Screenshot](Design/flow.png)
