@@ -58,6 +58,8 @@ public class HttpStatus {
      */
     public static final int OK = 200;
     public static final int CREATED = 201;
+    public static final int PARTIAL_CONTENT = 206;
+
 
     /**
      * Redirection 3xx
@@ -94,6 +96,7 @@ public class HttpStatus {
         statusMap.put(101, "Switching Protocols");
         statusMap.put(200, "OK");
         statusMap.put(201, "Created");
+        statusMap.put(206, "Partial Content");
         statusMap.put(300, "Multiple Choices");
         statusMap.put(301, "Moved Permanently");
         statusMap.put(302, "Found");
