@@ -8,8 +8,7 @@ as per IETF RFCs.
 5. Http-range
 
 # Design
-See Design And Flow details
-See the [Design in details](Design.md).
+See Design And Flow [details](Design.md).
 
 ## Installation
 Step 1 - Install Requirements
