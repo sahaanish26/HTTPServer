@@ -51,7 +51,7 @@ public class FileHttpResponse extends HttpResponse {
             this.setContentType();
             this.setAcceptRanges();
         } catch (IOException e) {
-            // Logger.error(TAG, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
