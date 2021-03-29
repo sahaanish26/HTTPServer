@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class FilePartialHttpResponse extends HttpResponse {
 
@@ -28,6 +29,10 @@ public class FilePartialHttpResponse extends HttpResponse {
      * content length of response body that need to be sent from file.
      */
     private int contentLength;
+
+
+    private final static Logger logger = Logger.getLogger(FilePartialHttpResponse.class.getName());
+
 
     public FilePartialHttpResponse(int statusCode, File inputFile, List<List<Integer>> listIntervals, String uri) {
         super();
@@ -86,8 +91,8 @@ public class FilePartialHttpResponse extends HttpResponse {
     }
 
     private void writeRange(int start, int end, OutputStream out, BufferedWriter writer) {
-        System.out.println("Start"+start);
-        System.out.println("end"+end);
+        logger.info("Start"+start);
+        logger.info("end"+end);
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile)));
             int read;
@@ -96,13 +101,13 @@ public class FilePartialHttpResponse extends HttpResponse {
             reader.skip(start);
             char[] buffer = new char[1024];
             while ((read = reader.read(buffer)) != -1) {
-                System.out.println("read" + read);
+                logger.info("read" + read);
                 total = total + read;
-                System.out.println("total" + total);
+                logger.info("total" + total);
                 if (total >= max) {
                     int extra = total - max;
                     read = read - extra;
-                    System.out.println("read inside" + read);
+                    logger.info("read inside" + read);
                     writer.write(buffer, 0, read);
                     break;
                 }
