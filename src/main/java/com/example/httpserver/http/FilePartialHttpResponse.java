@@ -37,9 +37,9 @@ public class FilePartialHttpResponse extends HttpResponse {
             }
             intervalList.add(innerList);
         }
-        System.out.println("intervalList inside constructor"+intervalList);
+        /*System.out.println("intervalList inside constructor"+intervalList);
         System.out.println("contentLength inside constructor"+contentLength);
-        this.uri=uri;
+*/        this.uri=uri;
 
         try {
             this.setContentLength();
