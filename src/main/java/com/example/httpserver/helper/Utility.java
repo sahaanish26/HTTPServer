@@ -6,36 +6,24 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
+
 
 import static java.util.TimeZone.getTimeZone;
 
 public class Utility {
 
-       //public static SimpleDateFormat dateFormat;
-    public static DateTimeFormatter formatter;
-   // private static final DateTimeFormatter RFC1123_DATE_TIME_FORMATTER =
-
-
-    static{
-
-                 formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z").withLocale(Locale.US);
 
 
 
-
-            }
-
-    //https://stackoverflow.com/questions/304268/getting-a-files-md5-checksum-in-java
-    //Standard Java Runtime Environment way:
-
+    /**
+     *
+     * @param file
+     * @return checksum value calculated based on content of the file.
+     * https://stackoverflow.com/questions/304268/getting-a-files-md5-checksum-in-java
+     *  Standard Java Runtime Environment way:
+     */
     public static String checksum(File file) {
         try {
             InputStream fin = new FileInputStream(file);
@@ -63,17 +51,30 @@ public class Utility {
         }
     }
 
+
+
+    /**
+     *
+     * @param date
+     * @return String value of date compliant to RFC1123
+     * we can either use DateTimeFormatter or have this method sync if we want to optimize on object creation
+     *  SimpleDateFormat is not threadsafe so same instance  can not be used
+     */
     public static String formatToRFC1123(Date date){
-        //we can either use DateTimeFormatter or have this method sync if we want to optimize on object creation
-        //SimpleDateFormat is not threadsafe so same instance  can not be used
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
         dateFormat.setTimeZone(getTimeZone("MST"));
 
         return dateFormat.format(date);
 
     }
-
+    /**
+     *
+     * @param date as String
+     * @return Date  compliant to RFC1123
+     * we can either use DateTimeFormatter or have this method sync if we want to optimize on object creation
+     *  SimpleDateFormat is not threadsafe so same instance  can not be used
+     */
     public static Date RFC1123ToDate(String date) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "EEE, dd MMM yyyy HH:mm:ss z", Locale.US);

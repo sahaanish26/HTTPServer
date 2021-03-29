@@ -4,13 +4,12 @@ package com.example.httpserver.http;
 
 import com.example.httpserver.helper.Utility;
 import com.example.httpserver.workers.HttpServerDelegate;
-import com.j256.simplemagic.ContentInfo;
-import com.j256.simplemagic.ContentInfoUtil;
 
-import javax.activation.MimetypesFileTypeMap;
+
+
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.Calendar;
@@ -104,50 +103,22 @@ public class FileHttpResponse extends HttpResponse {
 
 
 
+    /**
+     * This function determines the content type.
+     *  Content Type is derived based on file extension.Could not use Files.probeContentType since it does not support
+     *   all OS types(does not work in mac OS) https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8129632.So either
+     *   will upgrade to jdk9 or use https://github.com/j256/simplemagic
+     */
 
     private void setContentType() throws IOException {
-        /*Path source = Paths.get(this.inputFile.toURI());
-        System.out.println("source"+source);
-        String contentType = Files.probeContentType(source);
-        System.out.println("contentType"+contentType);
-       // headers.put("Content-Type", "application/octet-stream");
-        if (contentType != null) {
-            headers.put("Content-Type", contentType);
-        }
-        MimetypesFileTypeMap m = new MimetypesFileTypeMap(source.toString());
-        System.out.println( m.getContentType(this.inputFile) );
-      *//*  String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", this.inputFile.getName());
-        headers.put(headerKey,headerValue);
-  *//*     // response.setHeader(headerKey, headerValue);
-
-       // System.out.println("mimeType"+mimeType);
-
-
-        ContentInfoUtil util = new ContentInfoUtil();
-// if you want to use a different config file(s), you can load them by hand:
-// ContentInfoUtil util = new ContentInfoUtil("/etc/magic");
-// ...
-        ContentInfo info = util.findMatch(String.valueOf(source));
-       // System.out.println(info.getContentType().getMimeType());
-        System.out.println(info);
-*/
-
-
             String ext = uri.substring(this.uri.indexOf(".") + 1);
             String type = ContentType.contentTypes.get(ext.toUpperCase());
-        String disposition = "inline";
+
         if (type != null) {
             headers.put("Content-Type",type);
         }else{
             headers.put("Content-Type","application/octet-stream");
         }
-       // headers.put("Content-Disposition", disposition + ";filename=\"" + inputFile.getName() + "\"");
-
-
-
-
-
 
     }
 

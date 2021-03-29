@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 
 public class HttpServer {
 
-    private static final int port = 8000;
+    private static final int port = 8080;
+    private static final String webRoot = "web/";
     private final static Logger logger = Logger.getLogger(HttpServer.class.getName());
 
     protected static ExecutorService threadPoolOne =
@@ -18,11 +19,11 @@ public class HttpServer {
     private static  boolean running = true;
 
     public static void main(String[] args){
-        logger.info("server starting");
+        logger.info("server starting on port "+port);
 
         HttpServerDelegate delegate = null;
         try {
-            delegate = new HttpServerDelegate(port,"web/");
+            delegate = new HttpServerDelegate(port,webRoot);
         } catch (IOException e) {
             e.printStackTrace();
         }

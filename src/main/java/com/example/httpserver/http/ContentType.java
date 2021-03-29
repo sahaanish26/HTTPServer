@@ -9,7 +9,7 @@ public class ContentType {
 
 
     /**
-     * User readable status descriptions
+     * User readable Content descriptions
      */
     public static Map<String, String> contentTypes;
 

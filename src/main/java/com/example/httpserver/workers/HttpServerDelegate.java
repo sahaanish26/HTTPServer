@@ -19,7 +19,7 @@ public class HttpServerDelegate implements Runnable{
     private String webroot;
     private ServerSocket serverSocket;
 
-    protected  ExecutorService threadPool = Executors.newFixedThreadPool(10, new NamingThreadFactory(null, "RequestHandlerPool") );
+    protected  ExecutorService threadPool = Executors.newFixedThreadPool(8, new NamingThreadFactory(null, "RequestHandlerPool") );
     public HttpServerDelegate(int port, String webroot) throws IOException {
         this.port = port;
         this.webroot = webroot;
