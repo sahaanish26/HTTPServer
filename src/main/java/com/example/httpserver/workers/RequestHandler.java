@@ -21,6 +21,7 @@ public class RequestHandler implements Runnable{
     private Socket connection;
     private InputStream in;
     private OutputStream out;
+    private String identifier;
 
 
 
@@ -43,6 +44,7 @@ public class RequestHandler implements Runnable{
             HttpRequest request = HttpRequest.parse(in);
 
             if (request != null) {
+                this.identifier=request.getRequestLine()+ ":"+connection.getInetAddress()+":"+connection.getPort();
                 logger.info(request.getRequestLine() +
                         " from "
                         + connection.getInetAddress()
@@ -92,5 +94,12 @@ public class RequestHandler implements Runnable{
 
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "RequestHandler{" +
+                "identifier='" + identifier + '\'' +
+                '}';
     }
 }

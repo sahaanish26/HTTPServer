@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
+import com.example.httpserver.HttpServer;
 import com.example.httpserver.helper.Utility;
 import com.example.httpserver.http.*;
 
@@ -24,6 +26,8 @@ import com.example.httpserver.http.*;
 public class FileApplication implements WebApplication {
 
     private final String documentRoot;
+    private final static Logger logger = Logger.getLogger(FileApplication.class.getName());
+
 
     public FileApplication(String documentRoot) {
         this.documentRoot = documentRoot;
@@ -46,9 +50,7 @@ public class FileApplication implements WebApplication {
                             response = new EmptyHttpResponse(HttpStatus.FORBIDDEN);
                         } else {
                             response = returnResponse(request);
-                       /*     response = new FileHttpResponse(HttpStatus.OK,
-                                    new File(Paths.get(documentRoot, path).toString()));*/
-                        }
+                                              }
                     } else {
                         response = new EmptyHttpResponse(HttpStatus.NOT_FOUND);
                     }
@@ -75,24 +77,28 @@ public class FileApplication implements WebApplication {
         return response;
     }
 
+    /**
+     * helper method to determine correct response type and return an instance
+     * @param  @HttpRequest request
+     * @return HttpResponse
+     */
     private HttpResponse returnResponse(HttpRequest request)  {
         HttpResponse response = null;
+        // Check for ETAG/If-Modified-Since
         if(request.getHeaders().containsKey("If-None-Match") || request.getHeaders().containsKey("If-Modified-Since")){
 
             if( request.getHeaders().containsKey("If-None-Match") ){
             String expectedTag = request.getHeaders().get("If-None-Match");
-            System.out.println("expectedTag"+expectedTag);
-            String actualTag = Utility.checksum(new File(Paths.get(documentRoot, request.getPath()).toString()));
-                System.out.println("actualTag"+actualTag);
-            if(expectedTag.trim().equalsIgnoreCase(actualTag)){
-                System.out.println("actualTag-->"+actualTag);
-                return new FileCacheHttpResponse(HttpStatus.NOT_MODIFIED,actualTag) ;
 
+            String actualTag = Utility.checksum(new File(Paths.get(documentRoot, request.getPath()).toString()));
+                           if(expectedTag.trim().equalsIgnoreCase(actualTag)){
+                logger.info("actualTag-->"+actualTag);
+                return new FileCacheHttpResponse(HttpStatus.NOT_MODIFIED,actualTag) ;
             }
             }
             else{
                             String browserDateString = request.getHeaders().get("If-Modified-Since");
-                            System.out.println("browserDateString"+browserDateString);
+                logger.info("browserDateString"+browserDateString);
 
                             FileTime fileTime = null;
                             Date browserDate = null;
@@ -117,31 +123,31 @@ public class FileApplication implements WebApplication {
 
 
         if(request.getHeaders().containsKey("Range") ){
-            //handling valid scenarios for now exception scenario to be taken care later
-            String range = request.getHeaders().get("Range").trim();
+             String range = request.getHeaders().get("Range").trim();
+            //TODO handling valid scenarios for now exception scenario to be taken care later
             /*if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
                    return;
             }*/
             String[] arr = range.substring(6).split(",");
-            System.out.println("arr"+ Arrays.toString(arr));
+            logger.info("arr"+ Arrays.toString(arr));
             List<List<Integer>> listIntervals = new ArrayList<>();
             for(String eachRange: arr){
                 String[] intervals = eachRange.trim().split("-");
-                System.out.println("intervals"+ Arrays.toString(intervals));
                 List<Integer> interval = new ArrayList<>();
                 interval.add(Integer.parseInt(intervals[0]));
                 interval.add(Integer.parseInt(intervals[1]));
                 listIntervals.add(interval);
             }
+            //TODO handling valid scenarios for now exception/overlapping scenario to be taken care later
            // validate(listIntervals)
 
-            System.out.println("listIntervals"+ listIntervals);
+            logger.info("listIntervals"+ listIntervals);
             return new FilePartialHttpResponse(HttpStatus.PARTIAL_CONTENT,new File(Paths.get(documentRoot, request.getPath()).toString()),listIntervals,request.getUri()) ;
 
 
 
         }
-
+        //Default case return full response
         response = new FileHttpResponse(HttpStatus.OK,
                     new File(Paths.get(documentRoot, request.getPath()).toString()),request.getUri());
 

@@ -1,0 +1,10 @@
+* Content Type is derived based on file extension.Could not use Files.probeContentType since it does not support
+  all OS types(does not work in mac OS) https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8129632.So either
+  will upgrade to jdk9 or use https://github.com/j256/simplemagic
+* Support for custom Port number and folder name to serve static files from.
+* Support for image file
+* Support for more accurate content type and content length generation for List of ranges.
+* Implement more matured Strategy pattern for common constructor function calls.
+* For range implementation add validations for HTTP 416
+* File download capability with content disposition capability
+* More JUnit test cases.

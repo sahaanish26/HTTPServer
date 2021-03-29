@@ -15,16 +15,22 @@ public class FilePartialHttpResponse extends HttpResponse {
      */
     private File inputFile;
 
+    /**
+     * Interval List of bytes that need to be sent from file.
+     */
     private List<List<Integer>> intervalList;
 
     /**
      * path to the File part of whcihc to be sent to the user.
      */
     private String uri;
-
+    /**
+     * content length of response body that need to be sent from file.
+     */
     private int contentLength;
 
     public FilePartialHttpResponse(int statusCode, File inputFile, List<List<Integer>> listIntervals, String uri) {
+        super();
         this.statusCode = statusCode;
         this.inputFile=inputFile;
         /**Not setting directly OR using in built cloning but implementing defensive copying*/
@@ -37,9 +43,7 @@ public class FilePartialHttpResponse extends HttpResponse {
             }
             intervalList.add(innerList);
         }
-        /*System.out.println("intervalList inside constructor"+intervalList);
-        System.out.println("contentLength inside constructor"+contentLength);
-*/        this.uri=uri;
+             this.uri=uri;
 
         try {
             this.setContentLength();
@@ -147,6 +151,13 @@ public class FilePartialHttpResponse extends HttpResponse {
 
     }
 
+
+    /**
+     * This function determines the content type.
+     *  Content Type is derived based on file extension.Could not use Files.probeContentType since it does not support
+     *   all OS types(does not work in mac OS) https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8129632.So either
+     *   will upgrade to jdk9 or use https://github.com/j256/simplemagic
+     */
     private void setContentType()  {
 
 
@@ -158,12 +169,6 @@ public class FilePartialHttpResponse extends HttpResponse {
         }else{
             headers.put("Content-Type","application/octet-stream");
         }
-        // headers.put("Content-Disposition", disposition + ";filename=\"" + inputFile.getName() + "\"");
-
-
-
-
-
 
     }
 

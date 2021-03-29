@@ -2,12 +2,12 @@ package com.example.httpserver.workers;
 
 import com.example.httpserver.application.FileApplication;
 import com.example.httpserver.workerName.NamingThreadFactory;
+import com.example.httpserver.workerName.RejectedExecutionHandlerImpl;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,8 +18,14 @@ public class HttpServerDelegate implements Runnable{
     private int port;
     private String webroot;
     private ServerSocket serverSocket;
+    //creating a blocking implementation with task count of 200
+    private final BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(200);
+    private RejectedExecutionHandlerImpl rejectionHandler = new RejectedExecutionHandlerImpl();
+    protected ExecutorService threadPool = new ThreadPoolExecutor(8, 8,
+        0L, TimeUnit.MILLISECONDS,
+                                             queue,new NamingThreadFactory(null, "RequestHandlerPool"),rejectionHandler);
+    //protected  ExecutorService threadPool = Executors.newFixedThreadPool(8, new NamingThreadFactory(null, "RequestHandlerPool") );
 
-    protected  ExecutorService threadPool = Executors.newFixedThreadPool(10, new NamingThreadFactory(null, "RequestHandlerPool") );
     public HttpServerDelegate(int port, String webroot) throws IOException {
         this.port = port;
         this.webroot = webroot;

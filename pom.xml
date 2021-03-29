@@ -48,12 +48,9 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/com.j256.simplemagic/simplemagic -->
-        <dependency>
-            <groupId>com.j256.simplemagic</groupId>
-            <artifactId>simplemagic</artifactId>
-            <version>1.16</version>
-        </dependency>
+        <!-- to include in future https://mvnrepository.com/artifact/com.j256.simplemagic/simplemagic
+        reason : https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8129632    -->
+
 
 
 
