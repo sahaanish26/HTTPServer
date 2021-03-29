@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class StreamHttpResponse extends HttpResponse {
 
-    private final static Logger logger = Logger.getLogger(RawHttpRequest.class.getName());
+    private final static Logger logger = Logger.getLogger(StreamHttpResponse.class.getName());
 
     /**
      * Stream to be sent to the user.

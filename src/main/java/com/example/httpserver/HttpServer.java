@@ -29,14 +29,15 @@ public class HttpServer {
         }
 
         threadPoolOne.execute(delegate);
-        while(running) {
+        //ToDo enhance later take command from console.
+        /*while(running) {
             Console console = System.console();
             String command = console.readLine("server: ");
-            System.out.println("command" + command);
+            logger.info("command" + command);
             if(command.equalsIgnoreCase("stop")){
                 running=false;
                // delegate.stop();
             }
-        }
+        }*/
     }
 }
