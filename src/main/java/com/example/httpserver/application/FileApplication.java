@@ -7,7 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import com.example.httpserver.helper.Utility;
 import com.example.httpserver.http.*;
@@ -86,7 +89,8 @@ public class FileApplication implements WebApplication {
                 return new FileCacheHttpResponse(HttpStatus.NOT_MODIFIED,actualTag) ;
 
             }
-            }else{
+            }
+            else{
                             String browserDateString = request.getHeaders().get("If-Modified-Since");
                             System.out.println("browserDateString"+browserDateString);
 
@@ -111,7 +115,34 @@ public class FileApplication implements WebApplication {
             }
         }
 
-            response = new FileHttpResponse(HttpStatus.OK,
+
+        if(request.getHeaders().containsKey("Range") ){
+            //handling valid scenarios for now exception scenario to be taken care later
+            String range = request.getHeaders().get("Range").trim();
+            /*if (!range.matches("^bytes=\\d*-\\d*(,\\d*-\\d*)*$")) {
+                   return;
+            }*/
+            String[] arr = range.substring(6).split(",");
+            System.out.println("arr"+ Arrays.toString(arr));
+            List<List<Integer>> listIntervals = new ArrayList<>();
+            for(String eachRange: arr){
+                String[] intervals = eachRange.trim().split("-");
+                System.out.println("intervals"+ Arrays.toString(intervals));
+                List<Integer> interval = new ArrayList<>();
+                interval.add(Integer.parseInt(intervals[0]));
+                interval.add(Integer.parseInt(intervals[1]));
+                listIntervals.add(interval);
+            }
+           // validate(listIntervals)
+
+            System.out.println("listIntervals"+ listIntervals);
+            return new FilePartialHttpResponse(HttpStatus.PARTIAL_CONTENT,new File(Paths.get(documentRoot, request.getPath()).toString()),listIntervals,request.getUri()) ;
+
+
+
+        }
+
+        response = new FileHttpResponse(HttpStatus.OK,
                     new File(Paths.get(documentRoot, request.getPath()).toString()),request.getUri());
 
 
