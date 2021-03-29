@@ -42,9 +42,7 @@ public class HttpServerDelegate implements Runnable{
 
                 RequestHandler workerThread = new RequestHandler(socket,new FileApplication(this.webroot));
                 this.threadPool.execute(workerThread);
-                /*new Thread(
-                        workerThread
-                ).start();*/
+
             }
         } catch (IOException e) {
             logger.log(Level.SEVERE,"Problem with setting socket.");

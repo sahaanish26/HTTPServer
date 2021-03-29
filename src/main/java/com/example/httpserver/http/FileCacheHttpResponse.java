@@ -6,10 +6,15 @@ import java.io.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 //RFC 7232 §4.1 :
 public class FileCacheHttpResponse  extends HttpResponse {
     private String etag;
     private Date lastModified;
+
+    private final static Logger logger = Logger.getLogger(FileCacheHttpResponse.class.getName());
 
     public FileCacheHttpResponse(int statusCode, String etag) {
         super();
@@ -25,7 +30,7 @@ public class FileCacheHttpResponse  extends HttpResponse {
             this.setAcceptRanges();
 
         } catch (IOException e) {
-            // Logger.error(TAG, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
 
     }
@@ -43,7 +48,7 @@ public class FileCacheHttpResponse  extends HttpResponse {
             this.setAcceptRanges();
 
         } catch (IOException e) {
-            // Logger.error(TAG, e.getMessage());
+             logger.log(Level.SEVERE, e.getMessage());
         }
 
     }
