@@ -77,7 +77,7 @@ public class HttpServerTest {
 
             if (status == HttpURLConnection.HTTP_OK) {
                 String etag = con.getHeaderField("Etag");
-                System.out.println(etag);
+
                 con.disconnect();
                 con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
@@ -110,7 +110,7 @@ public class HttpServerTest {
 
             if (status == HttpURLConnection.HTTP_OK) {
                 String lastModifiedTs = con.getHeaderField("Last-Modified");
-                System.out.println(lastModifiedTs);
+
                 con.disconnect();
                 con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");

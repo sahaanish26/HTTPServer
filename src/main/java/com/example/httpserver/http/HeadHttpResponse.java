@@ -9,7 +9,6 @@ import java.io.*;
  */
 public class HeadHttpResponse extends FileHttpResponse {
 
-    private static String TAG = "HeadHttpResponse";
 
     /**
      * File to be sent to the user.

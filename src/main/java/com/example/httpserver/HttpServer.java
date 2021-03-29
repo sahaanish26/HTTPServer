@@ -26,7 +26,7 @@ public class HttpServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       // new Thread(delegate).start();
+
         threadPoolOne.execute(delegate);
         while(running) {
             Console console = System.console();

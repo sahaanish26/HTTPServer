@@ -3,6 +3,7 @@ package com.example.httpserver.http;
 //import com.example.httpserver.Logger;
 
 import com.example.httpserver.helper.Utility;
+import com.example.httpserver.workers.HttpServerDelegate;
 import com.j256.simplemagic.ContentInfo;
 import com.j256.simplemagic.ContentInfoUtil;
 
@@ -14,6 +15,8 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * HttpResponse extensions that sends a file to the client (e. g. html)
@@ -25,7 +28,12 @@ public class FileHttpResponse extends HttpResponse {
      * File to be sent to the user.
      */
     private File inputFile;
+    /**
+     * path to the File to be sent to the user.
+     */
     private String uri;
+
+    private final static Logger logger = Logger.getLogger(FileHttpResponse.class.getName());
 
     public FileHttpResponse(int statusCode, File inputFile, String uri) {
         super();
@@ -43,7 +51,7 @@ public class FileHttpResponse extends HttpResponse {
             this.setContentType();
             this.setAcceptRanges();
         } catch (IOException e) {
-            // Logger.error(TAG, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -83,7 +91,7 @@ public class FileHttpResponse extends HttpResponse {
 
             writer.flush();
         } catch (IOException e) {
-           // Logger.error(TAG, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
 
 
@@ -91,46 +99,11 @@ public class FileHttpResponse extends HttpResponse {
     }
 
 
-   /* public void write(OutputStream out) {
-        try {
-            DataOutputStream output = new DataOutputStream(out);
-
-            for (String key: headers.keySet()) {
-                output.writeBytes(key + ":" + headers.get(key));
-                output.writeBytes("\r\n");
-            }
-            output.writeBytes("\r\n");
-            if (inputFile != null) {
-                int length = (int) inputFile.length();
-                byte[] array = new byte[length];
-                InputStream in = new FileInputStream(inputFile);
-                int offset = 0;
-                while (offset < length) {
-                    int count = in.read(array, offset, (length - offset));
-                    offset += count;
-                }
-                in.close();
-
-              output.write(array);
-               *//* int read;
-                byte[] buffer1 = new byte[20480];
-                RandomAccessFile input = new RandomAccessFile(String.valueOf(inputFile.toPath()), "r");
-                while ((read = input.read(buffer1)) > 0) {
-                    output.write(buffer1, 0, read);
-                    output.flush();
-                }*//*
-
-            }
-            //output.writeBytes("\r\n");
-            output.flush();
-
-        } catch (IOException e) {
-            // Logger.error(TAG, e.getMessage());
-        }
 
 
 
-    }*/
+
+
 
     private void setContentType() throws IOException {
         /*Path source = Paths.get(this.inputFile.toURI());
