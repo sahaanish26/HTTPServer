@@ -58,7 +58,7 @@ public class RequestHandler implements Runnable{
                 response.getHeaders().put("Connection", "close"); // TODO Add keep-alive connections?
 
                 response.write(out);
-                System.out.println("response"+response);
+
             } else {
                 logger.log(Level.WARNING,"Server accepts only HTTP protocol.");
                 new RawHttpRequest(501, "Server only accepts HTTP protocol").write(out);
