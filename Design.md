@@ -15,3 +15,10 @@
 * Used Junit framework to write unit test cases. The Test cases are mandatory to pass for a successful
   build.
 * Used Github versioning and PR for merge and developement.
+
+### SequenceDiagrams
+![Screenshot](Design/main.png)
+
+![Screenshot](Design/delegate.png)
+
+![Screenshot](Design/flow.png)
