@@ -7,6 +7,10 @@ as per IETF RFCs.
 4. Mime-type
 5. Http-range
 
+# Design
+See Design And Flow details
+See the [Design in details](Design.md).
+
 ## Installation
 Step 1 - Install Requirements
 -----------------------------
@@ -42,5 +46,5 @@ The server runs on port 8080.To stop the Simple Web server, just close  the comm
 It is recommended to run the server in multicore machines for better performance.
 
 # Planned Enhancements 
-See Design And Flow details
+
 See the [FuturePlannedChangeLog.txt file](FuturePlannedChangeLog.txt).
